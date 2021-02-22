@@ -73,6 +73,7 @@ public class MachService<RemoteObject, ExportedObject: MachServiceServer>: NSObj
         }
         
         self.connections.append(connection)
+        
         connection.resume()
         
         return true
