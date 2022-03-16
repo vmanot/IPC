@@ -8,7 +8,10 @@ import ServiceManagement
 #endif
 import Swift
 
-open class MachServiceConnection<RemoteObject: MachServiceClient, ExportedObject: MachServiceServer>: MachServiceClient {
+open class MachServiceConnection<
+    RemoteObject: MachServiceClient,
+    ExportedObject: MachServiceServer
+>: MachServiceClient {
     public enum Error: Swift.Error {
         case unsupportedPlatform
     }
