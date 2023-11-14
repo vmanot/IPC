@@ -47,7 +47,7 @@ public class MachService<RemoteObject, ExportedObject: MachServiceServer>: NSObj
         }
     }
     
-    // MARK: - NSXPCListenerDelegate -
+    // MARK: - NSXPCListenerDelegate
     
     public func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection) -> Bool {
         guard isValid(connection: connection) else {
