@@ -6,7 +6,7 @@ import Foundation
 #if os(macOS) || targetEnvironment(macCatalyst)
 import ServiceManagement
 #endif
-import Swift
+import Swallow
 
 open class MachServiceConnection<
     RemoteObject: MachServiceClient,
@@ -35,16 +35,12 @@ open class MachServiceConnection<
         self.connectionOptions = connectionOptions
     }
     
-    func exportObject(_ onError: @escaping (Swift.Error) -> Void) -> ExportedObject? {
-        do {
-            return try self.connection().remoteObjectProxyWithErrorHandler(onError) as? ExportedObject
-        } catch {
-            onError(error)
-            
-            return nil
-        }
+    public func exportObject(
+        _ onError: @escaping (Swift.Error) -> Void = { assertionFailure($0) }
+    ) throws -> ExportedObject {
+        return try cast(self.connection().remoteObjectProxyWithErrorHandler(onError), to: ExportedObject.self)
     }
-    
+
     func connection() throws -> NSXPCConnection {
         #if os(macOS)
         if let activeConnection = activeConnection {

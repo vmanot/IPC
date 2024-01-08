@@ -1,14 +1,14 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.9
 
 import PackageDescription
 
 let package = Package(
     name: "IPC",
     platforms: [
-        .iOS(.v13),
-        .macOS(.v11),
-        .tvOS(.v13),
-        .watchOS(.v6)
+        .iOS(.v16),
+        .macOS(.v13),
+        .tvOS(.v16),
+        .watchOS(.v9)
     ],
     products: [
         .library(
@@ -16,10 +16,15 @@ let package = Package(
             targets: ["IPC"]
         )
     ],
+    dependencies: [
+        .package(url: "https://github.com/vmanot/Swallow.git", branch: "master"),
+    ],
     targets: [
         .target(
             name: "IPC",
-            dependencies: [],
+            dependencies: [
+                "Swallow"
+            ],
             path: "Sources"
         ),
         .testTarget(

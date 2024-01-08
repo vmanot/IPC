@@ -8,6 +8,7 @@ import Foundation
 import ServiceManagement
 import Swift
 
+/// This is what the XPC service (aka **NOT** the main/sandboxed app) will run in its `main.swift` file.
 public class MachService<RemoteObject, ExportedObject: MachServiceServer>: NSObject, MachServiceServer, NSXPCListenerDelegate {
     public let machServiceName: String
     public let remoteObjectProtocol: Protocol
@@ -49,7 +50,10 @@ public class MachService<RemoteObject, ExportedObject: MachServiceServer>: NSObj
     
     // MARK: - NSXPCListenerDelegate
     
-    public func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection) -> Bool {
+    public func listener(
+        _ listener: NSXPCListener,
+        shouldAcceptNewConnection connection: NSXPCConnection
+    ) -> Bool {
         guard isValid(connection: connection) else {
             return false
         }
@@ -83,7 +87,9 @@ public class MachService<RemoteObject, ExportedObject: MachServiceServer>: NSObj
         completion(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0")
     }
     
-    private func isValid(connection: NSXPCConnection) -> Bool {
+    private func isValid(
+        connection: NSXPCConnection
+    ) -> Bool {
         do {
             return try CodesignCheck.codeSigningMatches(pid: connection.processIdentifier)
         } catch {
@@ -92,7 +98,10 @@ public class MachService<RemoteObject, ExportedObject: MachServiceServer>: NSObj
         }
     }
     
-    private func verify(authorizationData data: NSData?, for command: Selector) throws {
+    private func verify(
+        authorizationData data: NSData?,
+        for command: Selector
+    ) throws {
         try authorizer.verify(authorizationData: data, for: command)
     }
     
